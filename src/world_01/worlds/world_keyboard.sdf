@@ -81,7 +81,7 @@
                 <match field="data">16777234</match>
             </input>
             <output type="ignition.msgs.Twist" topic="/cmd_vel">
-                linear: {x: 0.0}, angular: {z: 0.5}
+                linear: {x: 0.0}, angular: {z: -0.5}
             </output>
         </plugin>
 
@@ -92,7 +92,7 @@
                 <match field="data">16777236</match>
             </input>
             <output type="ignition.msgs.Twist" topic="/cmd_vel">
-                linear: {x: 0.0}, angular: {z: -0.5}
+                linear: {x: 0.0}, angular: {z: 0.5}
             </output>
         </plugin>
 
