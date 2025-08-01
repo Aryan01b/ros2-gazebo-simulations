@@ -57,26 +57,6 @@ ros2-gazebo-simulations/
 └── README.md
 ```
 
-## 🤖 Available Robots
-
-- [ ] Add your robot descriptions here
-
-## 🌍 Available Worlds
-
-- [ ] Add your world descriptions here
-
-## 💡 Usage Examples
-
-### Launching a robot in a specific world
-```bash
-ros2 launch <package_name> spawn_robot.launch.py world:=<world_name>
-```
-
-### Running Navigation
-```bash
-ros2 launch <package_name> navigation.launch.py
-```
-
 ## 📚 Learning Resources
 
 - [ROS 2 Documentation](https://docs.ros.org/)
