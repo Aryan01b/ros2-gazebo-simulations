@@ -264,7 +264,9 @@
       <odom_publish_frequency>30</odom_publish_frequency>
       <topic>cmd_vel</topic>
       <odom_topic>odom</odom_topic>
-      <odom_frame>odom</odom_frame>
+      <tf_topic>tf</tf_topic>                             
+      <frame_id>odom</frame_id>                            
+      <child_frame_id>base_link</child_frame_id> 
       <robot_base_frame>base_link</robot_base_frame>
     </plugin>
 

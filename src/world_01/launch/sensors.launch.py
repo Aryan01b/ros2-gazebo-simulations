@@ -66,6 +66,10 @@ def generate_launch_description():
             '/imu@sensor_msgs/msg/Imu[gz.msgs.IMU',
             # lidar (Gazebo → ROS)
             '/lidar@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
+            # odometry (Gazebo → ROS)
+            '/odom@nav_msgs/msg/Odometry@ignition.msgs.Odometry',
+            # TF (Gazebo → ROS)
+            '/tf@tf2_msgs/msg/TFMessage@ignition.msgs.Pose_V',
         ],
         remappings=[
             # Remap Gazebo's joint state topic to standard ROS topic
