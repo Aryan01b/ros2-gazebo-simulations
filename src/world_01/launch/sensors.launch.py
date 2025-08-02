@@ -95,6 +95,13 @@ def generate_launch_description():
         shell=True
     )
 
+    # IMU TF broadcaster node
+    imu_tf_broadcaster_node = Node(
+        package='dummy_data',
+        executable='imu_tf_broadcaster',
+        output='screen'
+    )
+
     return LaunchDescription([
         # Start Gazebo
         gz_sim,
@@ -104,6 +111,8 @@ def generate_launch_description():
         delayed_spawn,
         # ros_gz_bridge node    
         ros_gz_bridge_node,
+        # IMU TF broadcaster nodes
+        imu_tf_broadcaster_node,
         # Start RViz
         rviz_node,
         # Save RViz config when RViz exits
