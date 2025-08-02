@@ -6,13 +6,14 @@ from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 import os
 
+model_name = 'diff_bot'
 
 def generate_launch_description():
     # Path to the world file and robot model
     pkg_share = get_package_share_directory('world_01')
     world_file = os.path.join(pkg_share, 'worlds', 'world_keyboard.sdf')
-    model_path = os.path.join(pkg_share, 'models', 'diff_bot', 'model.sdf')
-    xacro_path = os.path.join(pkg_share, 'models', 'diff_bot', 'model.urdf.xacro')
+    model_path = os.path.join(pkg_share, 'models', model_name, 'model.sdf')
+    xacro_path = os.path.join(pkg_share, 'models', model_name, 'model.urdf.xacro')
 
     # Generate robot description from Xacro
     robot_description = Command(['xacro ', xacro_path])
@@ -37,7 +38,7 @@ def generate_launch_description():
         package='ros_gz_sim',
         executable='create',
         arguments=[
-            '-name', 'diff_bot',
+            '-name', model_name,
             '-x', '0.0',
             '-y', '0.0',
             '-z', '0.2',
@@ -58,13 +59,13 @@ def generate_launch_description():
         name='gz_bridge',
         arguments=[
             # Joint states (Gazebo → ROS)
-            '/world/world_demo/model/diff_bot/joint_state@sensor_msgs/msg/JointState[gz.msgs.Model',
+            '/world/world_demo/model/' + model_name + '/joint_state@sensor_msgs/msg/JointState[gz.msgs.Model',
             # cmd_vel (ROS → Gazebo)
             '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist'
         ],
         remappings=[
             # Remap Gazebo's joint state topic to standard ROS topic
-            ('/world/world_demo/model/diff_bot/joint_state', '/joint_states'),
+            ('/world/world_demo/model/' + model_name + '/joint_state', '/joint_states'),
         ],
         output='screen'
     )
