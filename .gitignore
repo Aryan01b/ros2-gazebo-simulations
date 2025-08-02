@@ -18,6 +18,7 @@ __pycache__/
 *.pyd
 .Python
 env/
+frame*
 
 # Colcon
 .colcon/

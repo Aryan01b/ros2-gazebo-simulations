@@ -6,7 +6,7 @@ from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 import os
 
-model_name = 'diff_bot'
+model_name = 'diff_bot_sensors'
 
 def generate_launch_description():
     # Path to the world file and robot model
@@ -59,24 +59,32 @@ def generate_launch_description():
         name='gz_bridge',
         arguments=[
             # Joint states (Gazebo → ROS)
-            '/world/world_demo/model/' + model_name + '/joint_state@sensor_msgs/msg/JointState[gz.msgs.Model',
+            '/world/world_keyboard/model/' + model_name + '/joint_state@sensor_msgs/msg/JointState[gz.msgs.Model',
             # cmd_vel (ROS → Gazebo)
-            '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist'
+            '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
+            # imu (Gazebo → ROS)
+            '/imu@sensor_msgs/msg/Imu[gz.msgs.IMU',
+            # lidar (Gazebo → ROS)
+            '/lidar@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
+            # odometry (Gazebo → ROS)
+            '/odom@nav_msgs/msg/Odometry@ignition.msgs.Odometry',
+            # TF (Gazebo → ROS)
+            '/tf@tf2_msgs/msg/TFMessage@ignition.msgs.Pose_V',
         ],
         remappings=[
             # Remap Gazebo's joint state topic to standard ROS topic
-            ('/world/world_demo/model/' + model_name + '/joint_state', '/joint_states'),
+            ('/world/world_keyboard/model/' + model_name + '/joint_state', '/joint_states')
         ],
         output='screen'
     )
 
     # RViz node
-    rviz_config_file = os.path.join(pkg_share, 'rviz', 'robot.rviz')
+    rviz_config_file = os.path.join(pkg_share, 'rviz', 'robot_sensors.rviz')
     
     # Ensure RViz config directory exists
     os.makedirs(os.path.dirname(rviz_config_file), exist_ok=True)
-    
-    # RViz node
+
+    # RViz node (using sensors configuration)
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
@@ -93,6 +101,13 @@ def generate_launch_description():
         shell=True
     )
 
+    # IMU TF broadcaster node
+    imu_tf_broadcaster_node = Node(
+        package='dummy_data',
+        executable='imu_tf_broadcaster',
+        output='screen'
+    )
+
     return LaunchDescription([
         # Start Gazebo
         gz_sim,
@@ -102,6 +117,8 @@ def generate_launch_description():
         delayed_spawn,
         # ros_gz_bridge node    
         ros_gz_bridge_node,
+        # IMU TF broadcaster nodes
+        imu_tf_broadcaster_node,
         # Start RViz
         rviz_node,
         # Save RViz config when RViz exits
