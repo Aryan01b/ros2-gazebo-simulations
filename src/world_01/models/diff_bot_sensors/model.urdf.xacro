@@ -30,7 +30,7 @@
                 <box size="${base_size_x} ${base_size_y} ${base_size_z}"/>
             </geometry>
             <material name="">
-                <color rgba="0.8 0.2 0.2 1"/>
+                <color rgba="0.8 0.2 0.2 0.8"/>
             </material>
         </visual>
         <collision name="base_collision">
@@ -52,7 +52,7 @@
                 <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
             </geometry>
             <material name="">
-                <color rgba="0.2 0.2 0.2 1"/>
+                <color rgba="0.2 0.2 0.2 0.8"/>
             </material>
         </visual>
         <collision name="left_wheel_collision">
@@ -138,7 +138,7 @@
                 <box size="0.02 0.02 0.01"/>
             </geometry>
             <material name="">
-                <color rgba="0.0 1.0 0.0 1.0"/>
+                <color rgba="0.0 0.0 1.0 1.0"/>  <!-- Blue -->
             </material>
         </visual>
         <collision>
@@ -151,6 +151,33 @@
     <joint name="imu_joint" type="fixed">
         <parent link="base_link"/>
         <child link="imu_link"/>
+    </joint>
+
+    <!-- Lidar Link -->
+    <link name="lidar_link">
+        <inertial>
+            <mass value="0.001"/>
+            <inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001"/>
+        </inertial>
+        <visual>
+            <geometry>
+                <box size="0.02 0.02 0.01"/>
+            </geometry>
+            <material name="">
+                <color rgba="0.5 0.0 0.5 1.0"/>  <!-- Purple -->
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.02 0.02 0.01"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="lidar_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="lidar_link"/>
+        <origin xyz="0 0 0.15" rpy="0 0 0"/>
     </joint>
 
 </robot>
