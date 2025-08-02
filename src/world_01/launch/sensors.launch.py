@@ -64,6 +64,8 @@ def generate_launch_description():
             '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
             # imu (Gazebo → ROS)
             '/imu@sensor_msgs/msg/Imu[gz.msgs.IMU',
+            # lidar (Gazebo → ROS)
+            '/lidar@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
         ],
         remappings=[
             # Remap Gazebo's joint state topic to standard ROS topic
