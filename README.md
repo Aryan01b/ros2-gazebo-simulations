@@ -37,7 +37,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <div align="center">
-  <p>Contributions welcome! 🙌</p>
+  <p>Contributions welcome!</p>
   <p>
     <a href="https://github.com/Aryan01b/ros2-gazebo-simulations/graphs/contributors">
       <img src="https://contrib.rocks/image?repo=Aryan01b/ros2-gazebo-simulations" alt="Contributors" />
