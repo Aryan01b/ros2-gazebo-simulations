@@ -1,16 +1,16 @@
-# ROS 2 Humble with Gazebo Fortress Simulation Workspace
+# ROS 2 Humble with Gazebo Harmonic Simulation Workspace
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![ROS 2](https://img.shields.io/badge/ROS%202-Humble-22314E?logo=ros)](https://docs.ros.org/en/humble/)
-[![Gazebo](https://img.shields.io/badge/Gazebo-Fortress-0096D6?logo=gazebosim)](https://gazebosim.org/docs/fortress/)
+[![Gazebo](https://img.shields.io/badge/Gazebo-Harmonic-0096D6?logo=gazebosim)](https://gazebosim.org/docs/harmonic/)
 
-A ROS 2 Humble and Gazebo Fortress workspace for robotics simulation.
+A ROS 2 Humble and Gazebo Harmonic workspace for robotics simulation.
 
 ## 🛠️ Prerequisites
 
 - Ubuntu 22.04 LTS
 - ROS 2 Humble
-- Gazebo Fortress
+- Gazebo Harmonic
 - Python 3.8+
 
 ## 🏗️ Installation
