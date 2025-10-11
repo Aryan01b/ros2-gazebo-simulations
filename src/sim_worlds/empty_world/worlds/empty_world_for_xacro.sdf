@@ -60,7 +60,7 @@
                 <match field="data">16777237</match>
             </input>
             <output type="ignition.msgs.Twist" topic="/cmd_vel">
-                linear: {x: 0.5}, angular: {z: 0.0}
+                linear: {x: -0.5}, angular: {z: 0.0}
             </output>
         </plugin>
 
@@ -70,7 +70,7 @@
                 <match field="data">16777235</match>
             </input>
             <output type="ignition.msgs.Twist" topic="/cmd_vel">
-                linear: {x: -0.5}, angular: {z: 0.0}
+                linear: {x: 0.5}, angular: {z: 0.0}
             </output>
         </plugin>
 
@@ -80,7 +80,7 @@
                 <match field="data">16777234</match>
             </input>
             <output type="ignition.msgs.Twist" topic="/cmd_vel">
-                linear: {x: 0.0}, angular: {z: -0.8}
+                linear: {x: 0.0}, angular: {z: 0.5}
             </output>
         </plugin>
 
@@ -90,7 +90,7 @@
                 <match field="data">16777236</match>
             </input>
             <output type="ignition.msgs.Twist" topic="/cmd_vel">
-                linear: {x: 0.0}, angular: {z: 0.8}
+                linear: {x: 0.0}, angular: {z: -0.5}
             </output>
         </plugin>
 

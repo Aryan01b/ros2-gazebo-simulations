@@ -20,7 +20,7 @@ def generate_launch_description():
     
     # Path to the world file and robot model
     world_file = os.path.join(world_pkg_share, 'worlds', 'empty_world.sdf')
-    model_file = os.path.join(model_pkg_share, 'models', 'model.sdf')
+    model_file = os.path.join(model_pkg_share, 'models', model_name, 'model.sdf')
     
 
     # Launch Gazebo with the specified world
