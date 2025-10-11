@@ -126,7 +126,7 @@
   
   <!-- Gazebo Plugins -->
   <gazebo>
-    <plugin filename="libignition-gazebo-diff-drive-system.so" name="ignition::gazebo::systems::DiffDrive">
+    <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
       <left_joint>left_wheel_joint</left_joint>
       <right_joint>right_wheel_joint</right_joint>
       <wheel_separation>${wheel_separation}</wheel_separation>
@@ -138,22 +138,5 @@
       <robot_base_frame>base_link</robot_base_frame>
     </plugin>
   </gazebo>
-  
-  <!-- Add transmission elements for the wheels -->
-  <!-- <xacro:macro name="wheel_transmission" params="prefix">
-    <transmission name="${prefix}_wheel_joint_trans">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="${prefix}_wheel_joint">
-        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="${prefix}_wheel_joint_motor">
-        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-        <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
-  </xacro:macro>
-  
-  <xacro:wheel_transmission prefix="left" />
-  <xacro:wheel_transmission prefix="right" /> -->
   
 </robot>

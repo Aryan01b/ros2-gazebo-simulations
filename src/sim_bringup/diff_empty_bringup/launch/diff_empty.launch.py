@@ -25,7 +25,7 @@ def generate_launch_description():
 
     # Launch Gazebo with the specified world
     gz_sim = ExecuteProcess(
-        cmd=['ign', 'gazebo', '-r', '-v', '4', world_file],
+        cmd=['gz', 'sim', '-r', '-v', '4', world_file],
         output='screen'
     )
     

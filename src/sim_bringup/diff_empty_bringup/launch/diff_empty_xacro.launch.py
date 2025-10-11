@@ -22,7 +22,7 @@ def generate_launch_description():
     
     # Launch Gazebo with the specified world
     gz_sim = ExecuteProcess(
-        cmd=['ign', 'gazebo', '-r', '-v', '4', world_file],
+        cmd=['gz', 'sim', '-r', '-v', '4', world_file],
         output='screen'
     )
     
@@ -40,7 +40,7 @@ def generate_launch_description():
     
     # Spawn the robot in Gazebo with a delay
     spawn_entity = Node(
-        package='ros_ign_gazebo',
+        package='ros_gz_sim',
         executable='create',
         arguments=[
             '-topic', '/robot_description',
@@ -80,7 +80,7 @@ def generate_launch_description():
     for topic, msg_type, ign_type in bridges:
         bridge_cmds.append(
             Node(
-                package='ros_ign_bridge',
+                package='ros_gz_bridge',
                 executable='parameter_bridge',
                 arguments=[f'{topic}@{msg_type}@{ign_type}'],
                 output='screen',
