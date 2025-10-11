@@ -24,7 +24,7 @@ Thank you for your interest in contributing! Here's how you can help improve thi
 
 ## Report Issues
 When reporting bugs, please include:
-- ROS 2 Humble and Gazebo Harmonic versions
+- ROS 2 Humble and Gazebo Fortress versions
 - Steps to reproduce
 - Expected vs actual behavior
 - Any relevant error messages or logs
