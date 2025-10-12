@@ -1,0 +1,212 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="diffbot_sensor">
+
+  <xacro:property name="M_PI" value="3.1415926535897931" />
+  <!-- Parameters -->
+  <xacro:property name="base_mass" value="5.0" />
+  <xacro:property name="wheel_mass" value="0.5" />
+  <xacro:property name="caster_mass" value="0.5" />
+
+  <xacro:property name="base_size" value="0.4 0.3 0.2" />
+  <xacro:property name="wheel_radius" value="0.15" />
+  <xacro:property name="wheel_width" value="0.05" />
+  <xacro:property name="caster_radius" value="0.05" />
+
+  <xacro:property name="wheel_separation" value="0.4" />
+  <xacro:property name="wheel_y_offset" value="0.2" />
+  <xacro:property name="wheel_x_offset" value="-0.1" />
+  <xacro:property name="caster_x_offset" value="0.15" />
+  <xacro:property name="caster_z_offset" value="-0.1" />
+
+  <!-- Base Link -->
+  <link name="base_link">
+    <inertial>
+      <mass value="${base_mass}" />
+      <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1" />
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="${base_size}" />
+      </geometry>
+      <material name="red">
+        <color rgba="0.8 0.2 0.2 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${base_size}" />
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Wheel Macro -->
+  <xacro:macro name="wheel" params="prefix reflect">
+    <link name="${prefix}_wheel">
+      <inertial>
+        <mass value="${wheel_mass}" />
+        <inertia ixx="0.02" ixy="0.0" ixz="0.0" iyy="0.02" iyz="0.0" izz="0.02" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_width}" />
+        </geometry>
+        <material name="black">
+          <color rgba="0.1 0.1 0.1 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_width}" />
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
+              <fdir1>1 0 0</fdir1>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>1e6</kp>
+              <kd>100</kd>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+    </link>
+
+    <joint name="${prefix}_wheel_joint" type="continuous">
+      <parent link="base_link" />
+      <child link="${prefix}_wheel" />
+      <origin xyz="${wheel_x_offset} ${reflect * wheel_y_offset} 0" rpy="0 0 0" />
+      <axis xyz="0 1 0" />
+      <!-- REMOVED <dynamics> — not needed for robot_state_publisher -->
+    </joint>
+
+    <!-- Gazebo reference for wheel physics -->
+    <gazebo reference="${prefix}_wheel">
+      <mu1>1.0</mu1>
+      <mu2>1.0</mu2>
+      <kp>1000000.0</kp>
+      <kd>100.0</kd>
+      <fdir1>1 0 0</fdir1>
+    </gazebo>
+  </xacro:macro>
+
+  <!-- Create wheels -->
+  <xacro:wheel prefix="left" reflect="1" />
+  <xacro:wheel prefix="right" reflect="-1" />
+
+  <!-- Caster Wheel -->
+  <link name="caster_wheel">
+    <inertial>
+      <mass value="${caster_mass}" />
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001" />
+    </inertial>
+    <visual>
+      <geometry>
+        <sphere radius="${caster_radius}" />
+      </geometry>
+      <material name="gray">
+        <color rgba="0.5 0.5 0.5 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="${caster_radius}" />
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.1</mu>
+            <mu2>0.1</mu2>
+          </ode>
+        </friction>
+        <contact>
+          <ode>
+            <kp>1e5</kp>
+            <kd>10</kd>
+          </ode>
+        </contact>
+      </surface>
+    </collision>
+  </link>
+
+  <joint name="caster_wheel_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="caster_wheel" />
+    <origin xyz="${caster_x_offset} 0 ${caster_z_offset}" rpy="0 0 0" />
+  </joint>
+
+  <gazebo reference="caster_wheel">
+    <mu1>0.1</mu1>
+    <mu2>0.1</mu2>
+    <kp>100000.0</kp>
+    <kd>10.0</kd>
+  </gazebo>
+
+  <!-- IMU -->
+  <link name="imu_link">
+    <inertial>
+      <mass value="0.001" /> <!-- Avoid zero mass -->
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.05" />
+      </geometry>
+      <material name="blue">
+        <color rgba="0.2 0.2 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.1 0.1 0.05" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="imu_link" />
+    <origin xyz="0 0 0.15" rpy="0 0 0" />
+  </joint>
+
+  <gazebo reference="imu_link">
+    <sensor name="imu_sensor" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>imu</topic>
+      <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>
+    </sensor>
+  </gazebo>
+
+  <!-- Gazebo DiffDrive Plugin -->
+  <gazebo>
+    <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+      <left_joint>left_wheel_joint</left_joint>
+      <right_joint>right_wheel_joint</right_joint>
+      <wheel_separation>${wheel_separation}</wheel_separation>
+      <wheel_radius>${wheel_radius}</wheel_radius>
+      <odom_publish_frequency>30</odom_publish_frequency>
+      <topic>cmd_vel</topic>
+      <odom_topic>odom</odom_topic>
+      <odom_frame>odom</odom_frame>
+      <robot_base_frame>base_link</robot_base_frame>
+    </plugin>
+  </gazebo>
+
+  <!-- JOINT STATE PUBLISHER PLUGIN FOR GAZEBO -->
+  <gazebo>
+    <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+      <publish_rate>100</publish_rate>
+      <joint_name>left_wheel_joint</joint_name>
+      <joint_name>right_wheel_joint</joint_name>
+    </plugin>
+  </gazebo>
+
+</robot>
