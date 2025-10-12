@@ -70,11 +70,11 @@ def generate_launch_description():
     bridge_cmds = []
     bridges = [
         # Command velocity bridge
-        ('/cmd_vel', 'geometry_msgs/msg/Twist', 'ignition.msgs.Twist'),
+        ('/cmd_vel', 'geometry_msgs/msg/Twist', 'gz.msgs.Twist'),
         # Odometry bridge
-        ('/model/diffbot/odometry', 'nav_msgs/msg/Odometry', 'ignition.msgs.Odometry'),
+        ('/model/diffbot/odometry', 'nav_msgs/msg/Odometry', 'gz.msgs.Odometry'),
         # TF bridge
-        ('/tf', 'tf2_msgs/msg/TFMessage', 'ignition.msgs.Pose_V'),
+        ('/tf', 'tf2_msgs/msg/TFMessage', 'gz.msgs.Pose_V'),
     ]
 
     for topic, msg_type, ign_type in bridges:
