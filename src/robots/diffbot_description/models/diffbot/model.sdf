@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<sdf version="1.9">
+<sdf version="1.10">
   <model name="diffbot">
     <pose>0 0 0.1 0 0 0</pose>
-
+    
     <link name="base_link">
       <inertial>
         <mass>5.0</mass>
@@ -15,7 +15,7 @@
           <izz>0.1</izz>
         </inertia>
       </inertial>
-
+      
       <collision name="base_collision">
         <geometry>
           <box>
@@ -23,7 +23,7 @@
           </box>
         </geometry>
       </collision>
-
+      
       <visual name="base_visual">
         <geometry>
           <box>
@@ -37,7 +37,7 @@
         </material>
       </visual>
     </link>
-
+    
     <!-- Left Wheel -->
     <link name="left_wheel">
       <pose>-0.1 0.2 0 1.5708 0 0</pose>
@@ -74,7 +74,7 @@
         </material>
       </visual>
     </link>
-
+    
     <!-- Right Wheel -->
     <link name="right_wheel">
       <pose>-0.1 -0.2 0 1.5708 0 0</pose>
@@ -111,7 +111,7 @@
         </material>
       </visual>
     </link>
-
+    
     <!-- Joints -->
     <joint name="left_wheel_joint" type="revolute">
       <parent>base_link</parent>
@@ -124,7 +124,7 @@
         </limit>
       </axis>
     </joint>
-
+    
     <joint name="right_wheel_joint" type="revolute">
       <parent>base_link</parent>
       <child>right_wheel</child>
@@ -136,7 +136,7 @@
         </limit>
       </axis>
     </joint>
-
+    
     <!-- Caster Wheel -->
     <link name="caster_wheel">
       <pose>0.15 0 -0.1 0 0 0</pose>
@@ -171,7 +171,7 @@
         </material>
       </visual>
     </link>
-
+    
     <joint name="caster_wheel_joint" type="ball">
       <parent>base_link</parent>
       <child>caster_wheel</child>
