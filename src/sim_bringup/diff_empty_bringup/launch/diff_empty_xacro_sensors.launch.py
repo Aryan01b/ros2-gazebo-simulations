@@ -76,6 +76,7 @@ def generate_launch_description():
                 '/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist',
                 '/odom@nav_msgs/msg/Odometry@gz.msgs.Odometry',
                 '/imu@sensor_msgs/msg/Imu@gz.msgs.IMU',
+                '/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan'
             ],
             output='screen',
             parameters=[{'use_sim_time': True}]

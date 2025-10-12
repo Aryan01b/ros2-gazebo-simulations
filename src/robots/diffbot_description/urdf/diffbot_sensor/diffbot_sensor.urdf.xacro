@@ -151,7 +151,8 @@
   <!-- IMU -->
   <link name="imu_link">
     <inertial>
-      <mass value="0.001" /> <!-- Avoid zero mass -->
+      <mass value="0.001" />
+      <!-- Avoid zero mass -->
       <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
     </inertial>
     <visual>
@@ -182,6 +183,65 @@
       <visualize>true</visualize>
       <topic>imu</topic>
       <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>
+    </sensor>
+  </gazebo>
+
+  <!-- Lidar -->
+  <link name="lidar_link">
+    <inertial>
+      <mass value="0.001" />
+      <!-- Avoid zero mass -->
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.05" />
+      </geometry>
+      <material name="yellow">
+        <color rgba="0.8 0.8 0.2 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.1 0.1 0.05" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="lidar_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="lidar_link" />
+    <origin xyz="0 0 0.25" rpy="0 0 0" />
+  </joint>
+
+  <gazebo reference="imu_link">
+    <sensor name='gpu_lidar' type='gpu_lidar'>"
+      <pose relative_to='lidar_frame'>0 0 0 0 0 0</pose>
+      <topic>scan</topic>
+      <update_rate>10</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>640</samples>
+            <resolution>1</resolution>
+            <min_angle>-1.396263</min_angle>
+            <max_angle>1.396263</max_angle>
+          </horizontal>
+          <vertical>
+            <samples>1</samples>
+            <resolution>0.01</resolution>
+            <min_angle>0</min_angle>
+            <max_angle>0</max_angle>
+          </vertical>
+        </scan>
+        <range>
+          <min>0.08</min>
+          <max>10.0</max>
+          <resolution>0.01</resolution>
+        </range>
+      </ray>
+      <always_on>1</always_on>
+      <visualize>true</visualize>
     </sensor>
   </gazebo>
 
