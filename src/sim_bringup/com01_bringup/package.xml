@@ -3,9 +3,9 @@
 <package format="3">
   <name>com01_bringup</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>com01 bringup package</description>
   <maintainer email="arlikararyan@gmail.com">swarn</maintainer>
-  <license>TODO: License declaration</license>
+  <license>MIT</license>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

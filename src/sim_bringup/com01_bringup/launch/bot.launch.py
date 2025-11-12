@@ -15,10 +15,10 @@ def generate_launch_description():
     # Get package share directory
     model_pkg_share = get_package_share_directory(model_pkg_name)
     world_pkg_share = get_package_share_directory(world_pkg_name)
-    
     # Path to the world file and robot model
     world_file = os.path.join(world_pkg_share, 'worlds', 'empty_world_for_xacro.sdf')
     xacro_file = os.path.join(model_pkg_share, 'urdf', model_name, 'bot.urdf.xacro')
+    ekf_config = os.path.join(model_pkg_share, 'config', 'ekf.yaml')
     
     # Launch Gazebo with the specified world
     gz_sim = ExecuteProcess(
@@ -71,8 +71,8 @@ def generate_launch_description():
         package='ros_gz_bridge',
         executable='parameter_bridge',
         arguments=[
-            # # Clock
-            # '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
+            # Clock
+            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
             # # Camera
             # '/camera/image@sensor_msgs/msg/Image@gz.msgs.Image',
             # '/camera/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo',
@@ -99,8 +99,25 @@ def generate_launch_description():
         ]
     )
 
+    odom_to_baselink = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_filter_node',
+        output='screen',
+        parameters=[ekf_config],
+    )
+
+    odom_tf = Node(
+        package='com01_bringup',
+        executable='odom_tf',
+        name='odom_tf',
+        output='screen'
+    )
+
     return LaunchDescription([
         gz_sim,
         delayed_spawn,
         bridge_all_in_one,
+        # odom_to_baselink,
+        odom_tf,
     ])

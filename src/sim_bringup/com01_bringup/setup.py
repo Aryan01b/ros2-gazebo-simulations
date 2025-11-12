@@ -27,6 +27,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            "odom_tf = com01_bringup.odom_tf:main",
         ],
     },
 )
