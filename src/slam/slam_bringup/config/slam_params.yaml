@@ -1,0 +1,68 @@
+slam_toolbox:
+  ros__parameters:
+    # Core Frames
+    odom_frame: odom
+    map_frame: map
+    base_frame: base_link
+    scan_topic: /scan
+    
+    # Mode
+    mode: mapping
+    
+    # Solver Configuration
+    solver_plugin: solver_plugins::CeresSolver
+    ceres_linear_solver: SPARSE_NORMAL_CHOLESKY
+    ceres_preconditioner: SCHUR_JACOBI
+    ceres_trust_strategy: LEVENBERG_MARQUARDT
+    ceres_dogleg_type: TRADITIONAL_DOGLEG
+    ceres_loss_function: None
+    
+    # PERFORMANCE CRITICAL - Reduce lag
+    throttle_scans: 1  # Process every scan
+    map_update_interval: 0.5  # Update map twice per second (was 1.0)
+    transform_publish_period: 0.02  # 50 Hz
+    transform_timeout: 0.5  # Increase timeout (was 0.2)
+    tf_buffer_duration: 10.0  # Reduce buffer (was 30.0)
+    
+    # Map Parameters
+    resolution: 0.05  # 5cm resolution
+    max_laser_range: 10.0
+    minimum_time_interval: 0.2  # Reduced from 0.5
+    
+    # ACCURACY CRITICAL - Motion thresholds
+    minimum_travel_distance: 0.1  # More frequent updates (was 0.2)
+    minimum_travel_heading: 0.1  # More frequent updates (was 0.2)
+    
+    # Scan Matching - IMPORTANT FOR ACCURACY
+    use_scan_matching: true
+    use_scan_barycenter: true
+    scan_buffer_size: 20  # Increased from 10
+    scan_buffer_maximum_scan_distance: 10.0
+    
+    # ACCURACY - Tighter matching
+    link_match_minimum_response_fine: 0.2  # Stricter (was 0.1)
+    link_scan_maximum_distance: 1.0  # Tighter (was 1.5)
+    
+    # Loop Closure - Disable for now to reduce lag
+    do_loop_closing: false  # Changed from true
+    
+    # Correlation Parameters - ACCURACY
+    correlation_search_space_dimension: 0.3  # Reduced from 0.5
+    correlation_search_space_resolution: 0.01
+    correlation_search_space_smear_deviation: 0.1
+    
+    # Scan Matcher Penalties - TUNED FOR ACCURACY
+    distance_variance_penalty: 0.3  # Stricter (was 0.5)
+    angle_variance_penalty: 0.5  # Stricter (was 1.0)
+    fine_search_angle_offset: 0.00349
+    coarse_search_angle_offset: 0.349
+    coarse_angle_resolution: 0.0349
+    minimum_angle_penalty: 0.9
+    minimum_distance_penalty: 0.5
+    use_response_expansion: true
+    
+    # Other
+    use_map_saver: true
+    debug_logging: false
+    stack_size_to_use: 40000000
+    enable_interactive_mode: true

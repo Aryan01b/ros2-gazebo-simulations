@@ -181,7 +181,8 @@
   <gazebo reference="lidar_link">
     <sensor name='gpu_lidar' type='gpu_lidar'>
       <topic>scan</topic>
-      <update_rate>10</update_rate>
+      <update_rate>20</update_rate>
+      <gz_frame_id>lidar_link</gz_frame_id>
       <ray>
         <scan>
           <horizontal>
@@ -219,7 +220,7 @@
       <odom_topic>odom</odom_topic>
       <frame_id>odom</frame_id>
       <child_frame_id>base_link</child_frame_id>
-      <odom_publish_frequency>30</odom_publish_frequency>
+      <odom_publish_frequency>50</odom_publish_frequency>
       <publish_odom_tf>false</publish_odom_tf>
     </plugin>
   </gazebo>

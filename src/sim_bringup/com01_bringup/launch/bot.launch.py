@@ -16,10 +16,9 @@ def generate_launch_description():
     model_pkg_share = get_package_share_directory(model_pkg_name)
     world_pkg_share = get_package_share_directory(world_pkg_name)
     # Path to the world file and robot model
-    world_file = os.path.join(world_pkg_share, 'worlds', 'empty_world_for_xacro.sdf')
+    world_file = os.path.join(world_pkg_share, 'worlds', 'two_room.sdf')
     xacro_file = os.path.join(model_pkg_share, 'urdf', model_name, 'bot.urdf.xacro')
-    ekf_config = os.path.join(model_pkg_share, 'config', 'ekf.yaml')
-    
+    rviz_config = os.path.join(model_pkg_share, 'rviz', 'com01_viz.rviz')
     # Launch Gazebo with the specified world
     gz_sim = ExecuteProcess(
         cmd=['gz', 'sim', '-r', '-v', '4', world_file],
@@ -78,15 +77,15 @@ def generate_launch_description():
             # '/camera/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo',
             # LiDAR
             # '/lidar/points@sensor_msgs/msg/PointCloud2@gz.msgs.PointCloudPacked',
-            '/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan',
+            '/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
             # IMU
-            '/imu@sensor_msgs/msg/Imu@gz.msgs.IMU',
+            '/imu@sensor_msgs/msg/Imu[gz.msgs.IMU',
             # Odometry
-            '/odom@nav_msgs/msg/Odometry@gz.msgs.Odometry',
+            '/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
             # Command velocity
-            '/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist',
+            '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
             # Joint states
-            '/world/empty_world/model/com01/joint_state@sensor_msgs/msg/JointState@gz.msgs.Model',
+            '/world/empty_world/model/com01/joint_state@sensor_msgs/msg/JointState[gz.msgs.Model',
             # # Model pose
             # '/model/robot/pose@geometry_msgs/msg/PoseStamped@gz.msgs.Pose',
         ],
@@ -99,25 +98,27 @@ def generate_launch_description():
         ]
     )
 
-    odom_to_baselink = Node(
-        package='robot_localization',
-        executable='ekf_node',
-        name='ekf_filter_node',
-        output='screen',
-        parameters=[ekf_config],
-    )
-
     odom_tf = Node(
         package='com01_bringup',
         executable='odom_tf',
         name='odom_tf',
-        output='screen'
+        output='screen',
+        parameters=[{'use_sim_time': True}]
+    )
+
+    rviz_node = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='screen',
+        arguments=['-d', rviz_config],
+        parameters=[{'use_sim_time': True}]
     )
 
     return LaunchDescription([
         gz_sim,
         delayed_spawn,
         bridge_all_in_one,
-        # odom_to_baselink,
         odom_tf,
+        rviz_node,
     ])
