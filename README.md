@@ -12,7 +12,6 @@ A ROS 2 Humble and Gazebo Harmonic workspace for robotics simulation.
 - ROS 2 Humble
 - Gazebo Harmonic
 - Python 3.8+
-- git
 - Custom Build ros_gz* packages
 
 ## 🏗️ Installation
